@@ -12,9 +12,3 @@
         state: present
         filename: percona-tools
     register: percona_apt_repository
-
--
-    name: Update APT cache if Percona repository changed
-    apt:
-        update_cache: true
-    when: percona_apt_repository.changed
