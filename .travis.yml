@@ -1,0 +1,24 @@
+---
+language: python
+
+services: docker
+
+env:
+  global:
+    - ROLE_NAME: percona-xtrabackup
+  matrix:
+    - MOLECULE_DISTRO: ubuntu1604
+    - MOLECULE_DISTRO: ubuntu1804
+
+install: pip install molecule docker
+
+# Use actual Ansible Galaxy role name for the project directory
+before_script:
+  - cd ../
+  - mv ansible-role-$ROLE_NAME webplates.$ROLE_NAME
+  - cd webplates.$ROLE_NAME
+
+script: molecule test
+
+notifications:
+    webhooks: https://galaxy.ansible.com/api/v1/notifications/
