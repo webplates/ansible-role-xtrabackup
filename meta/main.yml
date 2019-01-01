@@ -1,6 +1,5 @@
 ---
 galaxy_info:
-  role_name: percona-xtrabackup
   author: sagikazarmark
   description: Percona XtraBackup
   license: MIT
