@@ -3,6 +3,11 @@ language: python
 
 services: docker
 
+branches:
+    only:
+        - master
+        - /^v?\d+\.\d+\.\d+(-\S*)?$/
+
 env:
     global:
         - ROLE_NAME: percona-xtrabackup
