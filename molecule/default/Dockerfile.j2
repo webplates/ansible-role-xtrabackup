@@ -16,3 +16,7 @@ RUN if [ $(command -v apt-get) ]; then apt-get update && apt-get install -y pyth
 {% if 'ubuntu1804' in item.image %}
 RUN apt-get update && apt-get install -y dirmngr && apt-get clean
 {% endif %}
+
+{% if 'debian9' in item.image %}
+RUN apt-get update && apt-get install -y gnupg2 && apt-get clean
+{% endif %}
