@@ -1,0 +1,20 @@
+---
+-
+    name: Add Percona APT signing key
+    apt_key:
+        id: 8507EFA5
+        keyserver: keyserver.ubuntu.com
+        keyring: /etc/apt/trusted.gpg.d/percona.gpg
+-
+    name: Add Percona Tools APT repository
+    apt_repository:
+        repo: deb http://repo.percona.com/tools/apt {{ ansible_distribution_release }} main
+        state: present
+        filename: percona-tools
+    register: percona_apt_repository
+
+-
+    name: Update APT cache if Percona repository changed
+    apt:
+        update_cache: true
+    when: percona_apt_repository.changed

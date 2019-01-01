@@ -1,0 +1,6 @@
+---
+-
+    name: Ensure Percona XtraBackup is installed
+    apt:
+        name: percona-xtrabackup-80
+        state: present
