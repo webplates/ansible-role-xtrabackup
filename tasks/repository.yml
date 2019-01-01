@@ -5,6 +5,9 @@
         id: 8507EFA5
         keyserver: keyserver.ubuntu.com
         keyring: /etc/apt/trusted.gpg.d/percona.gpg
+    retries: 3
+    delay: 2
+
 -
     name: Add Percona Tools APT repository
     apt_repository:
@@ -12,3 +15,5 @@
         state: present
         filename: percona-tools
     register: percona_apt_repository
+    retries: 3
+    delay: 2
