@@ -4,3 +4,5 @@
     apt:
         name: percona-xtrabackup-80
         state: present
+    retries: 3
+    delay: 2
