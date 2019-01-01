@@ -1,7 +1,7 @@
-Percona XtraBackup Ansible Role
-===============================
+Ansible Role: Percona XtraBackup
+================================
 
-This role installs [Percona XtraBackup](https://www.percona.com/software/mysql-database/percona-xtrabackup).
+Installs [Percona XtraBackup](https://www.percona.com/software/mysql-database/percona-xtrabackup).
 
 Role Variables
 --------------
