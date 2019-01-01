@@ -10,7 +10,7 @@ branches:
 
 env:
     global:
-        - ROLE_NAME: percona-xtrabackup
+        - ROLE_NAME: xtrabackup
     matrix:
         - MOLECULE_DISTRO: ubuntu1604
         - MOLECULE_DISTRO: ubuntu1804

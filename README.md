@@ -1,9 +1,9 @@
 Ansible Role: Percona XtraBackup
 ================================
 
-[![Build Status](https://img.shields.io/travis/com/webplates/ansible-role-percona-xtrabackup.svg?style=flat-square)](https://travis-ci.com/webplates/ansible-role-percona-xtrabackup)
+[![Build Status](https://img.shields.io/travis/com/webplates/ansible-role-xtrabackup.svg?style=flat-square)](https://travis-ci.com/webplates/ansible-role-xtrabackup)
 
-Installs [Percona XtraBackup](https://www.percona.com/software/mysql-database/percona-xtrabackup).
+Installs [Percona XtraBackup](https://www.percona.com/software/mysql-database/xtrabackup).
 
 Role Variables
 --------------
@@ -29,7 +29,7 @@ passed in as parameters) is always nice for users too:
 
     - hosts: servers
       roles:
-         - { role: percona-xtrabackup, x: 42 }
+         - { role: xtrabackup, x: 42 }
 
 License
 -------
