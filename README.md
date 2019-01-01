@@ -1,6 +1,8 @@
 Ansible Role: Percona XtraBackup
 ================================
 
+[![Build Status](https://img.shields.io/travis/com/webplates/ansible-role-percona-xtrabackup.svg?style=flat-square)](https://travis-ci.com/webplates/ansible-role-percona-xtrabackup)
+
 Installs [Percona XtraBackup](https://www.percona.com/software/mysql-database/percona-xtrabackup).
 
 Role Variables
