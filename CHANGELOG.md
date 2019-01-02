@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+
+## [0.3.0] - 2019-01-02
+
 ### Changed
 
 - Variables are prefixed with `xtrabackup_`
@@ -27,5 +30,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Initial release
 
 
-[Unreleased]: https://github.com/webplates/ansible-role-percona-xtrabackup/compare/0.2.0...HEAD
+[Unreleased]: https://github.com/webplates/ansible-role-percona-xtrabackup/compare/0.3.0...HEAD
+[0.3.0]: https://github.com/webplates/ansible-role-percona-xtrabackup/compare/0.2.0...0.3.0
 [0.2.0]: https://github.com/webplates/ansible-role-percona-xtrabackup/compare/0.1.0...0.2.0
