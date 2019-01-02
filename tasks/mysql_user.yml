@@ -13,25 +13,25 @@
 -
     name: Create a MySQL backup user
     mysql_user:
-        name: "{{ mysql_backup_user_name }}"
+        name: "{{ xtrabackup_mysql_user_name }}"
         host: localhost
-        password: "{{ mysql_backup_user_password }}"
+        password: "{{ xtrabackup_mysql_user_password }}"
         # priv: '*.*:RELOAD,LOCK TABLES,PROCESS,REPLICATION CLIENT,CREATE TABLESPACE,CREATE,INSERT,SELECT'
         # append_privs: true
         state: present
 
 -
     name: Gather privileges for MySQL backup user
-    shell: mysql -B --disable-column-names -e "SHOW GRANTS FOR {{ mysql_backup_user_name }}@localhost;" | sed 's/GRANT //;s/ ON .*//' | tr "," "\n" | sed 's/^[[:blank:]]*//;s/[[:blank:]]*$//'
-    register: mysql_backup_user_privileges
+    shell: mysql -B --disable-column-names -e "SHOW GRANTS FOR {{ xtrabackup_mysql_user_name }}@localhost;" | sed 's/GRANT //;s/ ON .*//' | tr "," "\n" | sed 's/^[[:blank:]]*//;s/[[:blank:]]*$//'
+    register: xtrabackup_mysql_user_privileges
     changed_when: false
 
 -
     name: Grant static privileges to MySQL backup user
-    shell: mysql -e "GRANT RELOAD,LOCK TABLES,PROCESS,REPLICATION CLIENT,CREATE TABLESPACE,CREATE,INSERT,SELECT ON *.* TO '{{ mysql_backup_user_name }}'@'localhost';"
-    changed_when: '["RELOAD", "LOCK TABLES", "PROCESS", "REPLICATION CLIENT", "CREATE TABLESPACE", "CREATE", "INSERT", "SELECT"] | intersect(mysql_backup_user_privileges.stdout_lines) | length != 8'
+    shell: mysql -e "GRANT RELOAD,LOCK TABLES,PROCESS,REPLICATION CLIENT,CREATE TABLESPACE,CREATE,INSERT,SELECT ON *.* TO '{{ xtrabackup_mysql_user_name }}'@'localhost';"
+    changed_when: '["RELOAD", "LOCK TABLES", "PROCESS", "REPLICATION CLIENT", "CREATE TABLESPACE", "CREATE", "INSERT", "SELECT"] | intersect(xtrabackup_mysql_user_privileges.stdout_lines) | length != 8'
 
 -
     name: Grant dynamic privileges to MySQL backup user
-    shell: mysql -e "GRANT BACKUP_ADMIN, BINLOG_ADMIN, SYSTEM_VARIABLES_ADMIN ON *.* TO '{{ mysql_backup_user_name }}'@'localhost';"
-    changed_when: '["BACKUP_ADMIN", "BINLOG_ADMIN", "SYSTEM_VARIABLES_ADMIN"] | intersect(mysql_backup_user_privileges.stdout_lines) | length != 3'
+    shell: mysql -e "GRANT BACKUP_ADMIN, BINLOG_ADMIN, SYSTEM_VARIABLES_ADMIN ON *.* TO '{{ xtrabackup_mysql_user_name }}'@'localhost';"
+    changed_when: '["BACKUP_ADMIN", "BINLOG_ADMIN", "SYSTEM_VARIABLES_ADMIN"] | intersect(xtrabackup_mysql_user_privileges.stdout_lines) | length != 3'

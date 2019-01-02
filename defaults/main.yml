@@ -1,5 +1,5 @@
 ---
 # Create MySQL backup user
-create_mysql_backup_user: false
+xtrabackup_create_mysql_user: false
 
-mysql_backup_user_name: bkpuser
+xtrabackup_mysql_user_name: bkpuser

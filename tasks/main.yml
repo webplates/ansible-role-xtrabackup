@@ -4,4 +4,4 @@
 - import_tasks: install.yml
 
 - import_tasks: mysql_user.yml
-  when: create_mysql_backup_user
+  when: xtrabackup_create_mysql_user

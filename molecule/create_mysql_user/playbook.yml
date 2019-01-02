@@ -3,5 +3,5 @@
   hosts: all
   roles:
     - role: xtrabackup
-      create_mysql_backup_user: true
-      mysql_backup_user_password: bkpuser
+      xtrabackup_create_mysql_user: true
+      xtrabackup_mysql_user_password: bkpuser
