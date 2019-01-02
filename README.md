@@ -5,6 +5,8 @@ Ansible Role: Percona XtraBackup
 
 Installs [Percona XtraBackup](https://www.percona.com/software/mysql-database/xtrabackup).
 
+**Note:** For now only MySQL 8 is supported.
+
 Role Variables
 --------------
 
