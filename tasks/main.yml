@@ -3,5 +3,8 @@
 
 - import_tasks: install.yml
 
+- import_tasks: system_user.yml
+  when: xtrabackup_create_system_user
+
 - import_tasks: mysql_user.yml
   when: xtrabackup_create_mysql_user

@@ -1,0 +1,8 @@
+---
+- name: Converge
+  hosts: all
+  roles:
+    - role: xtrabackup
+      xtrabackup_create_mysql_user: true
+      xtrabackup_mysql_user_password: bkpuser
+      xtrabackup_create_system_user: true

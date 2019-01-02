@@ -20,7 +20,7 @@ provisioner:
   playbooks:
     prepare: prepare.yml
 scenario:
-  name: create_mysql_user
+  name: all
   test_sequence:
     - lint
     - destroy

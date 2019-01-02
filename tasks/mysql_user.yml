@@ -35,3 +35,13 @@
     name: Grant dynamic privileges to MySQL backup user
     shell: mysql -e "GRANT BACKUP_ADMIN, BINLOG_ADMIN, SYSTEM_VARIABLES_ADMIN ON *.* TO '{{ xtrabackup_mysql_user_name }}'@'localhost';"
     changed_when: '["BACKUP_ADMIN", "BINLOG_ADMIN", "SYSTEM_VARIABLES_ADMIN"] | intersect(xtrabackup_mysql_user_privileges.stdout_lines) | length != 3'
+
+-
+    name: Create .my.cnf file with backup user credentials
+    template:
+        src: "my.cnf.j2"
+        dest: "{{ xtrabackup_system_user.home }}/.my.cnf"
+        owner: "{{ xtrabackup_system_user.name }}"
+        group: "{{ xtrabackup_system_user.name }}"
+        mode: 0600
+    when: xtrabackup_create_system_user
