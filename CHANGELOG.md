@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+- Variables are prefixed with `xtrabackup_`
+- Add optional system user
+
 
 ## [0.2.0] - 2019-01-02
 
