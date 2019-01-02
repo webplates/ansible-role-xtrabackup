@@ -2,4 +2,5 @@
 # Create MySQL backup user
 xtrabackup_create_mysql_user: false
 
+# MySQL backup user default name
 xtrabackup_mysql_user_name: bkpuser
