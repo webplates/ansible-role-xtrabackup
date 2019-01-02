@@ -5,6 +5,7 @@
         id: 8507EFA5
         keyserver: keyserver.ubuntu.com
         keyring: /etc/apt/trusted.gpg.d/percona.gpg
+        state: present
     retries: 3
     delay: 2
 
@@ -12,7 +13,7 @@
     name: Add Percona Tools APT repository
     apt_repository:
         repo: deb http://repo.percona.com/tools/apt {{ ansible_distribution_release }} main
-        state: present
         filename: percona-tools
+        state: present
     retries: 3
     delay: 2
