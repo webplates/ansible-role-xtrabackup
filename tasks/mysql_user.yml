@@ -1,0 +1,37 @@
+---
+-
+    name: Determine required MySQL Python libraries
+    set_fact:
+        deb_mysql_python_package: "{% if 'python3' in ansible_python_interpreter|default('') %}python3-mysqldb{% else %}python-mysqldb{% endif %}"
+
+-
+    name: Ensure required Python libraries are installed
+    apt:
+        name: "{{ deb_mysql_python_package }}"
+        state: present
+
+-
+    name: Create a MySQL backup user
+    mysql_user:
+        name: "{{ mysql_backup_user_name }}"
+        host: localhost
+        password: "{{ mysql_backup_user_password }}"
+        # priv: '*.*:RELOAD,LOCK TABLES,PROCESS,REPLICATION CLIENT,CREATE TABLESPACE,CREATE,INSERT,SELECT'
+        # append_privs: true
+        state: present
+
+-
+    name: Gather privileges for MySQL backup user
+    shell: mysql -B --disable-column-names -e "SHOW GRANTS FOR {{ mysql_backup_user_name }}@localhost;" | sed 's/GRANT //;s/ ON .*//' | tr "," "\n" | sed 's/^[[:blank:]]*//;s/[[:blank:]]*$//'
+    register: mysql_backup_user_privileges
+    changed_when: false
+
+-
+    name: Grant static privileges to MySQL backup user
+    shell: mysql -e "GRANT RELOAD,LOCK TABLES,PROCESS,REPLICATION CLIENT,CREATE TABLESPACE,CREATE,INSERT,SELECT ON *.* TO '{{ mysql_backup_user_name }}'@'localhost';"
+    changed_when: '["RELOAD", "LOCK TABLES", "PROCESS", "REPLICATION CLIENT", "CREATE TABLESPACE", "CREATE", "INSERT", "SELECT"] | intersect(mysql_backup_user_privileges.stdout_lines) | length != 8'
+
+-
+    name: Grant dynamic privileges to MySQL backup user
+    shell: mysql -e "GRANT BACKUP_ADMIN, BINLOG_ADMIN, SYSTEM_VARIABLES_ADMIN ON *.* TO '{{ mysql_backup_user_name }}'@'localhost';"
+    changed_when: '["BACKUP_ADMIN", "BINLOG_ADMIN", "SYSTEM_VARIABLES_ADMIN"] | intersect(mysql_backup_user_privileges.stdout_lines) | length != 3'

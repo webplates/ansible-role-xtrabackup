@@ -1,0 +1,5 @@
+---
+# Create MySQL backup user
+create_mysql_backup_user: false
+
+mysql_backup_user_name: bkpuser

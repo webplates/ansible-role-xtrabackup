@@ -1,0 +1,26 @@
+---
+- name: Prepare
+  hosts: all
+  tasks:
+    - name: Add MySQL APT signing key
+      apt_key:
+        id: 5072E1F5
+        keyserver: keyserver.ubuntu.com
+        keyring: /etc/apt/trusted.gpg.d/mysql.gpg
+
+    - name: Add MySQL APT repository
+      apt_repository:
+        repo: deb http://repo.mysql.com/apt/ubuntu/ {{ ansible_distribution_release }} mysql-8.0
+        state: present
+        filename: mysql
+
+    - name: Ensure MySQL is installed
+      apt:
+        name: mysql-server
+        state: present
+
+    - name: Ensure MySQL is started and enabled on boot
+      service:
+        name: mysql
+        state: started
+        enabled: true

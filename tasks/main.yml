@@ -2,3 +2,6 @@
 - import_tasks: repository.yml
 
 - import_tasks: install.yml
+
+- import_tasks: mysql_user.yml
+  when: create_mysql_backup_user

@@ -12,10 +12,14 @@ env:
     global:
         - ROLE_NAME: xtrabackup
     matrix:
-        - MOLECULE_DISTRO: ubuntu1604
-        - MOLECULE_DISTRO: ubuntu1804
-        - MOLECULE_DISTRO: debian8
-        - MOLECULE_DISTRO: debian9
+        - MOLECULE_DISTRO=ubuntu1604 SCENARIO=default
+        - MOLECULE_DISTRO=ubuntu1804 SCENARIO=default
+        - MOLECULE_DISTRO=debian8 SCENARIO=default
+        - MOLECULE_DISTRO=debian9 SCENARIO=default
+        - MOLECULE_DISTRO=ubuntu1604 SCENARIO=create_mysql_user
+        - MOLECULE_DISTRO=ubuntu1804 SCENARIO=create_mysql_user
+        - MOLECULE_DISTRO=debian8 SCENARIO=create_mysql_user
+        - MOLECULE_DISTRO=debian9 SCENARIO=create_mysql_user
 
 install: pip install molecule docker
 

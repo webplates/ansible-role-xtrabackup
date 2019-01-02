@@ -8,7 +8,11 @@ Installs [Percona XtraBackup](https://www.percona.com/software/mysql-database/xt
 Role Variables
 --------------
 
-TODO
+| Variable | Default | Description |
+| -------- | ------- | ----------- |
+| `create_mysql_backup_user` | `false` | Create a MySQL user for XtraBackup |
+| `mysql_backup_user_name` | `bkpuser` | MySQL backup user name |
+| `mysql_backup_user_password` | *none* | MySQL backup user password (required when `create_mysql_backup_user` is `true`) |
 
 Dependencies
 ------------
