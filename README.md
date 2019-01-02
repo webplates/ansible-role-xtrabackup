@@ -2,7 +2,7 @@ Ansible Role: Percona XtraBackup
 ================================
 
 [![Build Status](https://img.shields.io/travis/com/webplates/ansible-role-xtrabackup.svg?style=flat-square)](https://travis-ci.com/webplates/ansible-role-xtrabackup)
-[![Ansible Galaxy](http://img.shields.io/badge/ansible-galaxy-5272B4.svg?style=flat-square)](https://galaxy.ansible.com/webplates/xtrabackup)
+[![Ansible Galaxy](http://img.shields.io/badge/galaxy-webplates.xtrabackup-5fb7b9.svg?style=flat-square)](https://galaxy.ansible.com/webplates/xtrabackup)
 
 Installs [Percona XtraBackup](https://www.percona.com/software/mysql-database/xtrabackup).
 
