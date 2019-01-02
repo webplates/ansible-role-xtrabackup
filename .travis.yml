@@ -10,7 +10,7 @@ branches:
 
 env:
     global:
-        - ROLE_NAME: xtrabackup
+        - ROLE_NAME=xtrabackup
     matrix:
         - MOLECULE_DISTRO=ubuntu1604 SCENARIO=default
         - MOLECULE_DISTRO=ubuntu1804 SCENARIO=default
