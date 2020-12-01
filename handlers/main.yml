@@ -1,0 +1,7 @@
+---
+- name: "[Debian] Enable repository"
+  command: percona-release enable-only tools
+
+- name: "[Debian] update cache"
+  apt:
+    update_cache: true

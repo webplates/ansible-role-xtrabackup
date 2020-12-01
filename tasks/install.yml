@@ -1,7 +1,10 @@
 ---
 - name: "[Debian] Ensure Percona XtraBackup is installed"
   apt:
-    name: percona-xtrabackup-80
+    pkg:
+      - "{{ xtrabackup_package_name }}"
+      - libgcrypt20
+      - openssl
     state: present
   retries: 3
   delay: 2
@@ -11,10 +14,10 @@
 - name: "[RedHat] Ensure Percona XtraBackup is installed"
   yum:
     name:
-      - percona-xtrabackup
-      - wget
+      - "{{ xtrabackup_package_name }}"
       - libgcrypt
       - openssl
       - qpress
+    update_cache: true
   when:
     - ansible_os_family == 'RedHat'
