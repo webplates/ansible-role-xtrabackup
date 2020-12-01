@@ -1,14 +1,20 @@
 ---
--
-    name: Determine required MySQL Python libraries
-    set_fact:
-        deb_mysql_python_package: "{% if 'python3' in ansible_python_interpreter|default('') %}python3-mysqldb{% else %}python-mysqldb{% endif %}"
+- name: "[Debian] Determine required MySQL Python libraries"
+  set_fact:
+    mysql_python_package: "{% if 'python3' in ansible_python_interpreter|default('') %}python3-mysqldb{% else %}python-mysqldb{% endif %}"
+  when:
+    - ansible_os_family == 'Debian'
 
--
-    name: Ensure required Python libraries are installed
-    apt:
-        name: "{{ deb_mysql_python_package }}"
-        state: present
+- name: "[RedHat] Determine required MySQL Python libraries"
+  set_fact:
+    mysql_python_package: "MySQL-python"
+  when:
+    - ansible_os_family == 'RedHat'
+
+- name: Ensure required Python libraries are installed
+  package:
+    name: "{{ mysql_python_package }}"
+    state: present
 
 -
     name: Create a MySQL backup user

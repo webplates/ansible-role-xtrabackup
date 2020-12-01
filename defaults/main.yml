@@ -10,3 +10,5 @@ xtrabackup_create_system_user: false
 
 # System backup user default name
 xtrabackup_system_user_name: xtrabackup
+
+xtrabackup_percona_yum_repository: http://www.percona.com/downloads/percona-release/redhat/0.1-5/percona-release-0.1-5.noarch.rpm
