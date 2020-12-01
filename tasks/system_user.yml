@@ -1,11 +1,10 @@
 ---
--
-    name: Create system user
-    user:
-        name: "{{ xtrabackup_system_user_name }}"
-        shell: /usr/sbin/nologin
-        system: true
-        groups: mysql
-        append: true
-        state: present
-    register: xtrabackup_system_user
+- name: Create system user
+  user:
+    name: "{{ xtrabackup_system_user_name }}"
+    shell: /usr/sbin/nologin
+    system: true
+    groups: mysql
+    append: true
+    state: present
+  register: xtrabackup_system_user
