@@ -1,6 +1,13 @@
 ---
 - name: Prepare
   hosts: all
+  pre_tasks:
+    - name: This likely fixes stale apt caches in Docker images
+      apt:
+        update_cache: true
+        cache_valid_time: 3600
+      when:
+        - ansible_os_family == 'Debian'
   tasks:
     - name: Add MySQL APT signing key
       apt_key:
