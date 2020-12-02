@@ -5,6 +5,7 @@
       - "{{ xtrabackup_package_name }}"
       - libgcrypt20
       - openssl
+      - qpress
     state: present
   retries: 3
   delay: 2

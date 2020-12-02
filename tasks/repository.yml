@@ -1,6 +1,10 @@
 ---
 - name: "[Debian] Discover repository"
   block:
+    - name: Install dependencies for percona-release
+      apt:
+        name: curl
+
     - name: Install Repository
       apt:
         deb: "{{ xtrabackup_repository_package }}"
