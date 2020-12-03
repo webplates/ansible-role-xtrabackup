@@ -23,6 +23,8 @@ Dependencies
 This role does not install MySQL nor configures XtraBackup for running.
 Configuration will probably come in future versions.
 
+`xtrabackup` works best with MySQL and Percona-Server. [MariaDB is not supported.](https://mariadb.com/kb/en/mariabackup-overview/#differences-compared-to-percona-xtrabackup)
+
 Example Playbook
 ----------------
 

@@ -8,26 +8,23 @@
         cache_valid_time: 3600
       when:
         - ansible_os_family == 'Debian'
-  tasks:
-    - name: Add MySQL APT signing key
-      apt_key:
-        id: 5072E1F5
-        keyserver: keyserver.ubuntu.com
-        keyring: /etc/apt/trusted.gpg.d/mysql.gpg
 
-    - name: Add MySQL APT repository
-      apt_repository:
-        repo: deb http://repo.mysql.com/apt/{{ ansible_distribution|lower }}/ {{ ansible_distribution_release }} mysql-8.0
+    - name: Install the MySQL repo.
+      yum:
+        name: http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
         state: present
-        filename: mysql
+      when:
+        - ansible_os_family == 'RedHat'
 
-    - name: Ensure MySQL is installed
-      apt:
-        name: mysql-server
-        state: present
-
-    - name: Ensure MySQL is started and enabled on boot
-      service:
-        name: mysql
-        state: started
-        enabled: true
+    - name: Override variables for MySQL (RedHat).
+      set_fact:
+        mysql_daemon: mysqld
+        mysql_packages: ['mysql-server']
+        mysql_log_error: /var/log/mysqld.err
+        mysql_syslog_tag: mysqld
+        mysql_pid_file: /var/run/mysqld/mysqld.pid
+        mysql_socket: /var/lib/mysql/mysql.sock
+      when:
+        - ansible_os_family == 'RedHat'
+  roles:
+    - role: geerlingguy.mysql

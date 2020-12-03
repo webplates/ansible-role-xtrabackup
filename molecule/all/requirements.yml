@@ -1,0 +1,5 @@
+---
+roles:
+  - name: geerlingguy.mysql
+    src: https://github.com/geerlingguy/ansible-role-mysql.git
+    version: 35f157a4210d77136d3c6c731fff303ae0d2bcec
