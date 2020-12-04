@@ -16,6 +16,7 @@ Role Variables
 | `xtrabackup_create_mysql_user` | `false` | Create a MySQL user for XtraBackup |
 | `xtrabackup_mysql_user_name` | `bkpuser` | MySQL backup user name |
 | `xtrabackup_mysql_user_password` | *none* | MySQL backup user password (required when `create_mysql_backup_user` is `true`) |
+| `xtrabackup_mysql_grants` | `[ BACKUP_ADMIN, PROCESS, RELOAD, LOCK TABLES, REPLICATION CLIENT ]` | List of grants to apply to the MySQL backup user | 
 | `xtrabackup_create_system_user` | `false` | ... |
 | `xtrabackup_system_user_name` | `xtrabackup` | ... |
 

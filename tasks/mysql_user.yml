@@ -29,38 +29,24 @@
     name: "{{ xtrabackup_mysql_user_name }}"
     host: localhost
     password: "{{ xtrabackup_mysql_user_password }}"
-    # priv: '*.*:RELOAD,LOCK TABLES,PROCESS,REPLICATION CLIENT,CREATE TABLESPACE,CREATE,INSERT,SELECT'
-    # append_privs: true
     state: present
 
-- name: Gather privileges for MySQL backup user
-  shell: >-
-    set -o pipefail
-    &&
-    mysql -B --disable-column-names
-    -e "SHOW GRANTS FOR {{ xtrabackup_mysql_user_name }}@localhost;" | sed 's/GRANT //;s/ ON .*//' | tr "," "\n" | sed 's/^[[:blank:]]*//;s/[[:blank:]]*$//'
-  args:
-    executable: /bin/bash
-  register: xtrabackup_mysql_user_privileges
+# mysql_user is buggy, which is why this is a "command"
+- name: Add full-backup privileges for MySQL backup user
+  command: >-
+    mysql -e
+    "GRANT {{ ','.join(xtrabackup_mysql_grants) }}
+    ON *.*
+    TO '{{ xtrabackup_mysql_user_name }}'@'localhost';"
   changed_when: false
 
-- name: Create fact
-  set_fact:
-    priv_output: xtrabackup_mysql_user_privileges.stdout_lines
-
-- name: Grant static privileges to MySQL backup user
-  shell: >-
+- name: "Add SELECT on `performance_schema`"
+  command: >-
     mysql -e
-    "GRANT RELOAD,LOCK TABLES,PROCESS,REPLICATION CLIENT,CREATE TABLESPACE,CREATE,INSERT,SELECT ON *.* TO '{{ xtrabackup_mysql_user_name }}'@'localhost';"
-  changed_when:
-    - '["RELOAD", "LOCK TABLES", "PROCESS", "REPLICATION CLIENT", "CREATE TABLESPACE", "CREATE", "INSERT", "SELECT"] | intersect(priv_output) | length != 8'
-
-- name: Grant dynamic privileges to MySQL backup user
-  shell: >-
-    mysql -e
-    "GRANT BACKUP_ADMIN, BINLOG_ADMIN, SYSTEM_VARIABLES_ADMIN ON *.* TO '{{ xtrabackup_mysql_user_name }}'@'localhost';"
-  changed_when:
-    - '["BACKUP_ADMIN", "BINLOG_ADMIN", "SYSTEM_VARIABLES_ADMIN"] | intersect(priv_output) | length != 3'
+    "GRANT SELECT
+    ON performance_schema.*
+    TO '{{ xtrabackup_mysql_user_name }}'@'localhost';"
+  changed_when: false
 
 - name: Create .my.cnf file with backup user credentials
   template:
