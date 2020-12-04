@@ -13,9 +13,11 @@ Role Variables
 
 | Variable | Default | Description |
 | -------- | ------- | ----------- |
-| `create_mysql_backup_user` | `false` | Create a MySQL user for XtraBackup |
-| `mysql_backup_user_name` | `bkpuser` | MySQL backup user name |
-| `mysql_backup_user_password` | *none* | MySQL backup user password (required when `create_mysql_backup_user` is `true`) |
+| `xtrabackup_create_mysql_user` | `false` | Create a MySQL user for XtraBackup |
+| `xtrabackup_mysql_user_name` | `bkpuser` | MySQL backup user name |
+| `xtrabackup_mysql_user_password` | *none* | MySQL backup user password (required when `create_mysql_backup_user` is `true`) |
+| `xtrabackup_create_system_user` | `false` | ... |
+| `xtrabackup_system_user_name` | `xtrabackup` | ... |
 
 Dependencies
 ------------

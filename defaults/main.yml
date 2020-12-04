@@ -4,11 +4,10 @@ xtrabackup_create_mysql_user: false
 
 # MySQL backup user default name
 xtrabackup_mysql_user_name: bkpuser
+xtrabackup_mysql_user_password: ""
 
 # Create system backup user
 xtrabackup_create_system_user: false
 
 # System backup user default name
 xtrabackup_system_user_name: xtrabackup
-
-xtrabackup_percona_yum_repository: http://www.percona.com/downloads/percona-release/redhat/0.1-5/percona-release-0.1-5.noarch.rpm

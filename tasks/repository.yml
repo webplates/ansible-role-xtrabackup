@@ -9,7 +9,7 @@
       apt:
         deb: "{{ xtrabackup_repository_package }}"
       notify:
-        - "[Debian] Enable repository"
+        - "Enable repository"
         - "[Debian] update cache"
 
     - meta: flush_handlers
@@ -19,5 +19,7 @@
 - name: "[RedHat] Install yum repository"
   yum:
     name: "{{ xtrabackup_percona_yum_repository }}"
+  notify:
+    - "Enable repository"
   when:
     - ansible_os_family == 'RedHat'
