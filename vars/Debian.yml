@@ -1,0 +1,4 @@
+---
+xtrabackup_repository_package_version: latest
+xtrabackup_repository_package: "https://repo.percona.com/apt/percona-release_{{ xtrabackup_repository_package_version }}.generic_all.deb"
+xtrabackup_package_name: percona-xtrabackup-80

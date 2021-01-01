@@ -1,47 +1,58 @@
 ---
--
-    name: Determine required MySQL Python libraries
-    set_fact:
-        deb_mysql_python_package: "{% if 'python3' in ansible_python_interpreter|default('') %}python3-mysqldb{% else %}python-mysqldb{% endif %}"
+- name: "[Debian] Determine required MySQL Python libraries"
+  set_fact:
+    mysql_python_package: "python3-mysqldb"
+  when:
+    - ("python3" in ansible_python_interpreter|default(''))
+    - ansible_os_family == 'Debian'
 
--
-    name: Ensure required Python libraries are installed
-    apt:
-        name: "{{ deb_mysql_python_package }}"
-        state: present
+- name: "[Debian] Determine required MySQL Python libraries"
+  set_fact:
+    mysql_python_package: "python-mysqldb"
+  when:
+    - ("python3" not in ansible_python_interpreter|default(''))
+    - ansible_os_family == 'Debian'
 
--
-    name: Create a MySQL backup user
-    mysql_user:
-        name: "{{ xtrabackup_mysql_user_name }}"
-        host: localhost
-        password: "{{ xtrabackup_mysql_user_password }}"
-        # priv: '*.*:RELOAD,LOCK TABLES,PROCESS,REPLICATION CLIENT,CREATE TABLESPACE,CREATE,INSERT,SELECT'
-        # append_privs: true
-        state: present
+- name: "[RedHat] Determine required MySQL Python libraries"
+  set_fact:
+    mysql_python_package: "MySQL-python"
+  when:
+    - ansible_os_family == 'RedHat'
 
--
-    name: Gather privileges for MySQL backup user
-    shell: mysql -B --disable-column-names -e "SHOW GRANTS FOR {{ xtrabackup_mysql_user_name }}@localhost;" | sed 's/GRANT //;s/ ON .*//' | tr "," "\n" | sed 's/^[[:blank:]]*//;s/[[:blank:]]*$//'
-    register: xtrabackup_mysql_user_privileges
-    changed_when: false
+- name: Ensure required Python libraries are installed
+  package:
+    name: "{{ mysql_python_package }}"
+    state: present
 
--
-    name: Grant static privileges to MySQL backup user
-    shell: mysql -e "GRANT RELOAD,LOCK TABLES,PROCESS,REPLICATION CLIENT,CREATE TABLESPACE,CREATE,INSERT,SELECT ON *.* TO '{{ xtrabackup_mysql_user_name }}'@'localhost';"
-    changed_when: '["RELOAD", "LOCK TABLES", "PROCESS", "REPLICATION CLIENT", "CREATE TABLESPACE", "CREATE", "INSERT", "SELECT"] | intersect(xtrabackup_mysql_user_privileges.stdout_lines) | length != 8'
+- name: Create a MySQL backup user
+  mysql_user:
+    name: "{{ xtrabackup_mysql_user_name }}"
+    host: localhost
+    password: "{{ xtrabackup_mysql_user_password }}"
+    state: present
 
--
-    name: Grant dynamic privileges to MySQL backup user
-    shell: mysql -e "GRANT BACKUP_ADMIN, BINLOG_ADMIN, SYSTEM_VARIABLES_ADMIN ON *.* TO '{{ xtrabackup_mysql_user_name }}'@'localhost';"
-    changed_when: '["BACKUP_ADMIN", "BINLOG_ADMIN", "SYSTEM_VARIABLES_ADMIN"] | intersect(xtrabackup_mysql_user_privileges.stdout_lines) | length != 3'
+# mysql_user is buggy, which is why this is a "command"
+- name: Add full-backup privileges for MySQL backup user
+  command: >-
+    mysql -e
+    "GRANT {{ ','.join(xtrabackup_mysql_grants) }}
+    ON *.*
+    TO '{{ xtrabackup_mysql_user_name }}'@'localhost';"
+  changed_when: false
 
--
-    name: Create .my.cnf file with backup user credentials
-    template:
-        src: "my.cnf.j2"
-        dest: "{{ xtrabackup_system_user.home }}/.my.cnf"
-        owner: "{{ xtrabackup_system_user.name }}"
-        group: "{{ xtrabackup_system_user.name }}"
-        mode: 0600
-    when: xtrabackup_create_system_user
+- name: "Add SELECT on `performance_schema`"
+  command: >-
+    mysql -e
+    "GRANT SELECT
+    ON performance_schema.*
+    TO '{{ xtrabackup_mysql_user_name }}'@'localhost';"
+  changed_when: false
+
+- name: Create .my.cnf file with backup user credentials
+  template:
+    src: "my.cnf.j2"
+    dest: "{{ xtrabackup_system_user.home }}/.my.cnf"
+    owner: "{{ xtrabackup_system_user.name }}"
+    group: "{{ xtrabackup_system_user.name }}"
+    mode: 0600
+  when: xtrabackup_create_system_user

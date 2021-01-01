@@ -4,6 +4,13 @@ xtrabackup_create_mysql_user: false
 
 # MySQL backup user default name
 xtrabackup_mysql_user_name: bkpuser
+xtrabackup_mysql_user_password: ""
+xtrabackup_mysql_grants:
+  - BACKUP_ADMIN
+  - PROCESS
+  - RELOAD
+  - LOCK TABLES
+  - REPLICATION CLIENT
 
 # Create system backup user
 xtrabackup_create_system_user: false

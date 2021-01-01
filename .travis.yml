@@ -16,12 +16,14 @@ env:
         - MOLECULE_DISTRO=ubuntu1804 SCENARIO=default
         - MOLECULE_DISTRO=debian8 SCENARIO=default
         - MOLECULE_DISTRO=debian9 SCENARIO=default
+        - MOLECULE_DISTRO=centos7 SCENARIO=default
         - MOLECULE_DISTRO=ubuntu1604 SCENARIO=all
         - MOLECULE_DISTRO=ubuntu1804 SCENARIO=all
         - MOLECULE_DISTRO=debian8 SCENARIO=all
         - MOLECULE_DISTRO=debian9 SCENARIO=all
+        - MOLECULE_DISTRO=centos7 SCENARIO=all
 
-install: pip install molecule docker
+install: pip install -r requirements.txt -c constraints.txt
 
 # Use actual Ansible Galaxy role name for the project directory
 before_script:

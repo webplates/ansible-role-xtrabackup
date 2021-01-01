@@ -1,19 +1,25 @@
 ---
--
-    name: Add Percona APT signing key
-    apt_key:
-        id: 8507EFA5
-        keyserver: keyserver.ubuntu.com
-        keyring: /etc/apt/trusted.gpg.d/percona.gpg
-        state: present
-    retries: 3
-    delay: 2
+- name: "[Debian] Discover repository"
+  block:
+    - name: Install dependencies for percona-release
+      apt:
+        name: curl
 
--
-    name: Add Percona Tools APT repository
-    apt_repository:
-        repo: deb http://repo.percona.com/tools/apt {{ ansible_distribution_release }} main
-        filename: percona-tools
-        state: present
-    retries: 3
-    delay: 2
+    - name: Install Repository
+      apt:
+        deb: "{{ xtrabackup_repository_package }}"
+      notify:
+        - "Enable repository"
+        - "[Debian] update cache"
+
+    - meta: flush_handlers
+  when:
+    - ansible_os_family == 'Debian'
+
+- name: "[RedHat] Install yum repository"
+  yum:
+    name: "{{ xtrabackup_percona_yum_repository }}"
+  notify:
+    - "Enable repository"
+  when:
+    - ansible_os_family == 'RedHat'
